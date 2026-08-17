@@ -9,6 +9,17 @@ export function triggerDownload(src: string, name: string) {
   a.remove();
 }
 
+// Blob storage URLs are cross-origin, so the `download` attribute alone
+// won't force a save — fetch the bytes first, then download from an
+// object URL (which is always treated as same-origin).
+export async function downloadFile(src: string, name: string) {
+  const res = await fetch(src);
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  triggerDownload(url, name);
+  URL.revokeObjectURL(url);
+}
+
 export async function zipAndDownload(
   photos: Photo[],
   filename: string,

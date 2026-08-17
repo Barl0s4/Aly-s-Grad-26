@@ -13,6 +13,7 @@ export default function Nav() {
       <span className="nav-brand">Allysa&rsquo;s Grad Party</span>
       <a href="#details">Details</a>
       <a href="#gallery">Gallery</a>
+      <a href="#upload">Add Photos</a>
     </nav>
   );
 }

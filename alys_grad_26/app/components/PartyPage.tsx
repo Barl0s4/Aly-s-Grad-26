@@ -2,17 +2,24 @@
 
 import { useMemo, useState } from "react";
 import type { Photo } from "../types";
-import { triggerDownload, zipAndDownload } from "../lib/download";
+import { downloadFile, zipAndDownload } from "../lib/download";
 import Nav from "./Nav";
 import Hero from "./Hero";
 import DetailsSection from "./DetailsSection";
 import Gallery from "./Gallery";
 import Lightbox from "./Lightbox";
+import GuestPhotosSection from "./GuestPhotosSection";
 import Footer from "./Footer";
 
-const HERO_PHOTO_ID = "DSCF1129.JPG";
+const HERO_PHOTO_ID = "DSCF1129.jpg";
 
-export default function PartyPage({ photos }: { photos: Photo[] }) {
+export default function PartyPage({
+  photos,
+  guestPhotos,
+}: {
+  photos: Photo[];
+  guestPhotos: Photo[];
+}) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [selectionMode, setSelectionMode] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -66,7 +73,7 @@ export default function PartyPage({ photos }: { photos: Photo[] }) {
   }
 
   function downloadOne(photo: Photo) {
-    triggerDownload(photo.src, photo.name);
+    downloadFile(photo.src, photo.name);
   }
 
   async function downloadSelected() {
@@ -138,6 +145,7 @@ export default function PartyPage({ photos }: { photos: Photo[] }) {
               : "Download selected"
         }
       />
+      <GuestPhotosSection initialPhotos={guestPhotos} />
       <Footer />
       {lightboxPhoto && (
         <Lightbox
