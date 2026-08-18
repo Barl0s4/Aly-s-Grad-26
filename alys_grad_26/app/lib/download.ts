@@ -31,7 +31,7 @@ export async function zipAndDownload(
   let done = 0;
   for (const photo of photos) {
     try {
-      const res = await fetch(photo.src);
+      const res = await fetch(photo.downloadSrc ?? photo.src);
       const blob = await res.blob();
       zip.file(photo.name, blob);
     } catch {

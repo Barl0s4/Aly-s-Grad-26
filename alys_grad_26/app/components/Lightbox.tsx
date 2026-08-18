@@ -38,6 +38,23 @@ export default function Lightbox({ photo, onClose, onPrev, onNext, onDownload }:
       }}
       onClick={onClose}
     >
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose();
+        }}
+        aria-label="Close"
+        className="lb-icon-btn"
+        style={{
+          position: "fixed",
+          top: "var(--space-4)",
+          right: "var(--space-4)",
+          fontSize: 24,
+          zIndex: 60,
+        }}
+      >
+        &times;
+      </button>
       <div
         style={{
           position: "relative",
@@ -69,7 +86,7 @@ export default function Lightbox({ photo, onClose, onPrev, onNext, onDownload }:
         >
           <div style={{ display: "flex", gap: "var(--space-2)" }}>
             <button
-              className="btn btn-secondary btn-icon"
+              className="lb-icon-btn"
               onClick={(e) => {
                 e.stopPropagation();
                 onPrev();
@@ -79,7 +96,7 @@ export default function Lightbox({ photo, onClose, onPrev, onNext, onDownload }:
               &#8249;
             </button>
             <button
-              className="btn btn-secondary btn-icon"
+              className="lb-icon-btn"
               onClick={(e) => {
                 e.stopPropagation();
                 onNext();
@@ -89,20 +106,15 @@ export default function Lightbox({ photo, onClose, onPrev, onNext, onDownload }:
               &#8250;
             </button>
           </div>
-          <div style={{ display: "flex", gap: "var(--space-2)" }}>
-            <button
-              className="btn btn-primary"
-              onClick={(e) => {
-                e.stopPropagation();
-                onDownload();
-              }}
-            >
-              Download this photo
-            </button>
-            <button className="btn btn-secondary" onClick={onClose}>
-              Close
-            </button>
-          </div>
+          <button
+            className="btn lb-download-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDownload();
+            }}
+          >
+            Download this photo
+          </button>
         </div>
       </div>
     </div>

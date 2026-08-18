@@ -13,11 +13,6 @@ export default function DetailsSection() {
           <p className="card-title">UCLA Grad</p>
           <p className="card-body">Class of 2026</p>
         </div>
-        <div className="card">
-          <p className="card-kicker">Location</p>
-          <p className="card-title">The Guizar Backyard</p>
-          <p className="card-body">Where it all went down</p>
-        </div>
       </div>
     </section>
   );

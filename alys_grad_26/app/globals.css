@@ -23,8 +23,8 @@
   --color-accent-300: #facb8d;
   --color-accent-800: #5a3b0a;
 
-  --font-heading: var(--font-heading), "Cormorant Garamond", Georgia, serif;
-  --font-body: var(--font-body), "Lora", Georgia, serif;
+  --font-heading: var(--font-heading), "Playfair Display", Georgia, serif;
+  --font-body: var(--font-body), "Inter", -apple-system, sans-serif;
   --font-heading-weight: 600;
 
   --space-1: 4.6px;
@@ -158,7 +158,7 @@ figure {
   transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 .btn:disabled {
-  opacity: 0.45;
+  opacity: 3;
   cursor: not-allowed;
 }
 .btn-primary {
@@ -191,6 +191,37 @@ figure {
   width: 36px;
   height: 36px;
   padding: 0;
+}
+
+/* — lightbox controls: sit on top of a photo of any tone, so they need
+   their own solid-enough treatment rather than the light-theme buttons — */
+.lb-icon-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in srgb, var(--color-bg) 55%, transparent);
+  background: color-mix(in srgb, var(--color-neutral-900) 62%, transparent);
+  color: var(--color-bg);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.lb-icon-btn:hover {
+  background: color-mix(in srgb, var(--color-neutral-900) 80%, transparent);
+  border-color: var(--color-bg);
+}
+.lb-download-btn {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border-color: var(--color-accent);
+}
+.lb-download-btn:hover:not(:disabled) {
+  background: var(--color-accent-2);
+  border-color: var(--color-accent-2);
 }
 
 /* — cards — */
@@ -244,6 +275,8 @@ figure {
 .nav {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  row-gap: var(--space-1);
   gap: var(--space-4);
   padding: var(--space-3) var(--space-6);
   border-bottom: 1px solid var(--color-divider);
@@ -330,6 +363,14 @@ figure {
   gap: var(--space-4);
 }
 
+.hero-image {
+  aspect-ratio: 3 / 2;
+}
+
+.gp-tile-image {
+  height: 230px;
+}
+
 @media (max-width: 900px) {
   .hero-grid {
     grid-template-columns: 1fr !important;
@@ -343,11 +384,37 @@ figure {
 }
 
 @media (max-width: 640px) {
+  :root {
+    --space-6: 18px;
+    --space-8: 26px;
+  }
+  .nav {
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+  }
+  .nav-brand {
+    font-size: 15px;
+  }
+  .nav a {
+    font-size: 13px;
+  }
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr) !important;
   }
+  .gp-tile-image {
+    height: 165px;
+  }
   h1 {
-    font-size: 38px !important;
+    font-size: 34px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .nav-brand {
+    font-size: 13px;
+  }
+  .nav a {
+    font-size: 12px;
   }
 }
 

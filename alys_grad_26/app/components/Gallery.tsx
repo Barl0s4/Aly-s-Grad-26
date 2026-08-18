@@ -98,8 +98,9 @@ export default function Gallery({
               }}
             >
               <div
+                className="gp-tile-image"
                 onClick={() => (selectionMode ? onToggleSelect(photo.id) : onOpen(i))}
-                style={{ width: "100%", height: 230, overflow: "hidden", position: "relative" }}
+                style={{ width: "100%", overflow: "hidden", position: "relative", minHeight: 165 }}
               >
                 <Image
                   src={photo.src}

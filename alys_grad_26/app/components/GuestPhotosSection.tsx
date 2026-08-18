@@ -125,8 +125,9 @@ export default function GuestPhotosSection({ initialPhotos }: { initialPhotos: P
               style={{ margin: 0, position: "relative", cursor: "zoom-in" }}
             >
               <div
+                className="gp-tile-image"
                 onClick={() => setLightboxIndex(i)}
-                style={{ width: "100%", height: 230, overflow: "hidden", position: "relative" }}
+                style={{ width: "100%", overflow: "hidden", position: "relative", minHeight: 165 }}
               >
                 <Image
                   src={photo.src}

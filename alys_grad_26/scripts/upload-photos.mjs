@@ -4,17 +4,19 @@ import fs from "node:fs";
 import path from "node:path";
 
 const IMAGES_DIR = path.join(process.cwd(), "public", "images");
-const PREFIX = "party-photos/";
 const IMAGE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 
-// Web-sized re-encode: full-res originals (~15MB, 6240x4160) stay on disk
-// untouched; only this compressed copy goes to Blob, to fit the free
-// storage tier while still looking sharp on screen and in the lightbox.
-const MAX_DIMENSION = 2200;
-const JPEG_QUALITY = 82;
+// Two re-encoded tiers go to Blob; full-res originals (~15MB, 6240x4160)
+// never leave disk. "display" is what the grid/lightbox loads (small,
+// fast). "download" is what visitors actually save — noticeably sharper
+// than display, still a fraction of the original's size.
+const TIERS = [
+  { prefix: "party-photos/", maxDimension: 2200, quality: 82 },
+  { prefix: "party-photos-download/", maxDimension: 3600, quality: 88 },
+];
 
-function jpgPathname(file) {
-  return PREFIX + file.replace(/\.[^.]+$/, "") + ".jpg";
+function jpgPathname(prefix, file) {
+  return prefix + file.replace(/\.[^.]+$/, "") + ".jpg";
 }
 
 async function main() {
@@ -30,44 +32,51 @@ async function main() {
 
   console.log(`Found ${files.length} local photos in public/images`);
 
-  const existing = await list({ prefix: PREFIX });
-  const already = new Set(existing.blobs.map((b) => b.pathname));
-  console.log(`${already.size} already uploaded to Blob`);
+  for (const tier of TIERS) {
+    const existing = await list({ prefix: tier.prefix });
+    const already = new Set(existing.blobs.map((b) => b.pathname));
+    console.log(`[${tier.prefix}] ${already.size} already uploaded to Blob`);
 
-  let uploaded = 0;
-  let skipped = 0;
-  let totalBytes = 0;
+    let uploaded = 0;
+    let skipped = 0;
+    let totalBytes = 0;
 
-  for (const file of files) {
-    const pathname = jpgPathname(file);
-    if (already.has(pathname)) {
-      skipped += 1;
-      continue;
+    for (const file of files) {
+      const pathname = jpgPathname(tier.prefix, file);
+      if (already.has(pathname)) {
+        skipped += 1;
+        continue;
+      }
+      const filePath = path.join(IMAGES_DIR, file);
+      const buffer = await sharp(filePath)
+        .rotate()
+        .resize({
+          width: tier.maxDimension,
+          height: tier.maxDimension,
+          fit: "inside",
+          withoutEnlargement: true,
+        })
+        .jpeg({ quality: tier.quality })
+        .toBuffer();
+
+      await put(pathname, buffer, {
+        access: "public",
+        addRandomSuffix: false,
+        allowOverwrite: true,
+        contentType: "image/jpeg",
+        cacheControlMaxAge: 31536000,
+      });
+      uploaded += 1;
+      totalBytes += buffer.length;
+      console.log(
+        `[${tier.prefix}] Uploaded (${uploaded + skipped}/${files.length}): ${file} -> ${(buffer.length / 1024 / 1024).toFixed(2)}MB`
+      );
     }
-    const filePath = path.join(IMAGES_DIR, file);
-    const buffer = await sharp(filePath)
-      .rotate()
-      .resize({ width: MAX_DIMENSION, height: MAX_DIMENSION, fit: "inside", withoutEnlargement: true })
-      .jpeg({ quality: JPEG_QUALITY })
-      .toBuffer();
 
-    await put(pathname, buffer, {
-      access: "public",
-      addRandomSuffix: false,
-      allowOverwrite: true,
-      contentType: "image/jpeg",
-      cacheControlMaxAge: 31536000,
-    });
-    uploaded += 1;
-    totalBytes += buffer.length;
     console.log(
-      `Uploaded (${uploaded + skipped}/${files.length}): ${file} -> ${(buffer.length / 1024 / 1024).toFixed(2)}MB`
+      `[${tier.prefix}] Done. Uploaded ${uploaded} new (${(totalBytes / 1024 / 1024).toFixed(1)}MB), skipped ${skipped} already-present.`
     );
   }
-
-  console.log(
-    `Done. Uploaded ${uploaded} new (${(totalBytes / 1024 / 1024).toFixed(1)}MB), skipped ${skipped} already-present.`
-  );
 }
 
 main().catch((err) => {

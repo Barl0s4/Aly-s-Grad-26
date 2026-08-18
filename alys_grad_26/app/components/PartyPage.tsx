@@ -73,7 +73,7 @@ export default function PartyPage({
   }
 
   function downloadOne(photo: Photo) {
-    downloadFile(photo.src, photo.name);
+    downloadFile(photo.downloadSrc ?? photo.src, photo.name);
   }
 
   async function downloadSelected() {

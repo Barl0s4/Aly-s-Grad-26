@@ -21,7 +21,7 @@ export default function Hero({
         maxWidth: 1180,
         margin: "0 auto",
         display: "grid",
-        gridTemplateColumns: "1.1fr 0.9fr",
+        gridTemplateColumns: "1fr 1.2fr",
         gap: "var(--space-8)",
         alignItems: "center",
       }}
@@ -52,13 +52,16 @@ export default function Hero({
           </button>
         </div>
       </div>
-      <figure className="plate elev-lg" style={{ margin: 0, position: "relative", height: 440 }}>
+      <figure
+        className="plate elev-lg hero-image"
+        style={{ margin: 0, position: "relative", minHeight: 180 }}
+      >
         <Image
           src={heroPhoto.src}
           alt="Allysa in front of the UCLA Grad marquee"
           fill
           priority
-          sizes="(max-width: 900px) 100vw, 520px"
+          sizes="(max-width: 900px) 100vw, 600px"
           style={{ objectFit: "cover" }}
         />
       </figure>
