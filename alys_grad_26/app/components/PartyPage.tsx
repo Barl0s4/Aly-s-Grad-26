@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { Photo } from "../types";
-import { downloadFile, zipAndDownload } from "../lib/download";
+import { downloadFile, downloadMany } from "../lib/download";
 import Nav from "./Nav";
 import Hero from "./Hero";
 import DetailsSection from "./DetailsSection";
@@ -82,7 +82,7 @@ export default function PartyPage({
     setZippingSelected(true);
     setZipProgress({ done: 0, total: chosen.length });
     try {
-      await zipAndDownload(chosen, "allysa-grad-party-selected.zip", (done, total) =>
+      await downloadMany(chosen, "allysa-grad-party-selected.zip", (done, total) =>
         setZipProgress({ done, total })
       );
     } finally {
@@ -95,7 +95,7 @@ export default function PartyPage({
     setZippingAll(true);
     setZipProgress({ done: 0, total: photos.length });
     try {
-      await zipAndDownload(photos, "allysa-grad-party-all-photos.zip", (done, total) =>
+      await downloadMany(photos, "allysa-grad-party-all-photos.zip", (done, total) =>
         setZipProgress({ done, total })
       );
     } finally {
@@ -117,9 +117,9 @@ export default function PartyPage({
           zipping={zipping}
           downloadAllLabel={
             zippingAll && zipProgress
-              ? `Zipping ${zipProgress.done}/${zipProgress.total}…`
+              ? `Preparing ${zipProgress.done}/${zipProgress.total}…`
               : zippingAll
-                ? "Zipping…"
+                ? "Preparing…"
                 : "Download all"
           }
         />
@@ -139,9 +139,9 @@ export default function PartyPage({
         zipping={zipping}
         downloadSelectedLabel={
           zippingSelected && zipProgress
-            ? `Zipping ${zipProgress.done}/${zipProgress.total}…`
+            ? `Preparing ${zipProgress.done}/${zipProgress.total}…`
             : zippingSelected
-              ? "Zipping…"
+              ? "Preparing…"
               : "Download selected"
         }
       />
