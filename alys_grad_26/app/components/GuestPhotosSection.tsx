@@ -6,6 +6,7 @@ import Image from "next/image";
 import type { Photo } from "../types";
 import { downloadFile } from "../lib/download";
 import Lightbox from "./Lightbox";
+import RevealOnScroll from "./RevealOnScroll";
 
 const MAX_UPLOAD_BYTES = 25 * 1024 * 1024;
 const ACCEPTED_TYPES = new Set([
@@ -119,26 +120,27 @@ export default function GuestPhotosSection({ initialPhotos }: { initialPhotos: P
       {photos.length > 0 && (
         <div className="gallery-grid" style={{ marginTop: "var(--space-4)" }}>
           {photos.map((photo, i) => (
-            <div
-              key={photo.id}
-              className="gp-grid-item plate"
-              style={{ margin: 0, position: "relative", cursor: "zoom-in" }}
-            >
+            <RevealOnScroll key={photo.id}>
               <div
-                className="gp-tile-image"
-                onClick={() => setLightboxIndex(i)}
-                style={{ width: "100%", overflow: "hidden", position: "relative", minHeight: 165 }}
+                className="gp-grid-item plate"
+                style={{ margin: 0, position: "relative", cursor: "zoom-in" }}
               >
-                <Image
-                  src={photo.src}
-                  alt="Guest submitted photo"
-                  fill
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  style={{ objectFit: "cover" }}
-                  loading="lazy"
-                />
+                <div
+                  className="gp-tile-image"
+                  onClick={() => setLightboxIndex(i)}
+                  style={{ width: "100%", overflow: "hidden", position: "relative", minHeight: 165 }}
+                >
+                  <Image
+                    src={photo.src}
+                    alt="Guest submitted photo"
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    style={{ objectFit: "cover" }}
+                    loading="lazy"
+                  />
+                </div>
               </div>
-            </div>
+            </RevealOnScroll>
           ))}
         </div>
       )}

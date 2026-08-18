@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { Photo } from "../types";
+import RevealOnScroll from "./RevealOnScroll";
 
 type GalleryProps = {
   photos: Photo[];
@@ -86,8 +87,8 @@ export default function Gallery({
         {photos.map((photo, i) => {
           const isSel = selected.has(photo.id);
           return (
+            <RevealOnScroll key={photo.id}>
             <div
-              key={photo.id}
               className="gp-grid-item plate"
               style={{
                 margin: 0,
@@ -175,6 +176,7 @@ export default function Gallery({
                 </button>
               )}
             </div>
+            </RevealOnScroll>
           );
         })}
       </div>

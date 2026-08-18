@@ -23,8 +23,8 @@
   --color-accent-300: #facb8d;
   --color-accent-800: #5a3b0a;
 
-  --font-heading: var(--font-heading), "Playfair Display", Georgia, serif;
-  --font-body: var(--font-body), "Inter", -apple-system, sans-serif;
+  --font-heading: var(--font-playfair), "Playfair Display", Georgia, serif;
+  --font-body: var(--font-playfair), "Playfair Display", Georgia, serif;
   --font-heading-weight: 600;
 
   --space-1: 4.6px;
@@ -335,11 +335,32 @@ figure {
   }
 }
 
+/* — scroll reveal: photos ease in and settle as they enter the viewport — */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(28px) scale(0.96);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 .gp-grid-item {
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition: box-shadow 0.2s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .gp-grid-item:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: var(--shadow-md);
 }
 .gp-grid-item:hover .gp-select {
   opacity: 1;
@@ -364,7 +385,7 @@ figure {
 }
 
 .hero-image {
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 3 / 2.5;
 }
 
 .gp-tile-image {
