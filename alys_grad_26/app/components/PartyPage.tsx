@@ -82,7 +82,7 @@ export default function PartyPage({
     setZippingSelected(true);
     setZipProgress({ done: 0, total: chosen.length });
     try {
-      await downloadMany(chosen, "allysa-grad-party-selected.zip", (done, total) =>
+      await downloadMany(chosen, "alyssa-grad-party-selected.zip", (done, total) =>
         setZipProgress({ done, total })
       );
     } finally {
@@ -95,7 +95,7 @@ export default function PartyPage({
     setZippingAll(true);
     setZipProgress({ done: 0, total: photos.length });
     try {
-      await downloadMany(photos, "allysa-grad-party-all-photos.zip", (done, total) =>
+      await downloadMany(photos, "alyssa-grad-party-all-photos.zip", (done, total) =>
         setZipProgress({ done, total })
       );
     } finally {

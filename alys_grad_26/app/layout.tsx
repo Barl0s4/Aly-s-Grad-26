@@ -10,9 +10,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Allysa's Grad Party",
+  title: "Alyssa's Grad Party",
   description:
-    "UCLA, Class of 2026 — every photo from Allysa's graduation party, all in one place.",
+    "UCLA, Class of 2026 — every photo from Alyssa's graduation party, all in one place.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -32,7 +32,7 @@ export default function Hero({
           Class of 2026
         </p>
         <h1 style={{ fontSize: 56, fontWeight: 400, marginBottom: "var(--space-2)" }}>
-          Allysa&rsquo;s Grad Party
+          Alyssa&rsquo;s Grad Party
         </h1>
         <p style={{ fontSize: 18, opacity: 0.75, marginBottom: "var(--space-4)", maxWidth: 520 }}>
           UCLA, Class of 2026 &mdash; thank you for celebrating with us.
@@ -58,7 +58,7 @@ export default function Hero({
       >
         <Image
           src={heroPhoto.src}
-          alt="Allysa in front of the UCLA Grad marquee"
+          alt="Alyssa in front of the UCLA Grad marquee"
           fill
           priority
           sizes="(max-width: 900px) 100vw, 600px"

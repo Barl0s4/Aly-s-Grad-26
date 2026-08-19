@@ -10,7 +10,7 @@ export default function Nav() {
         backdropFilter: "blur(6px)",
       }}
     >
-      <span className="nav-brand">Allysa&rsquo;s Grad Party</span>
+      <span className="nav-brand">Alyssa&rsquo;s Grad Party</span>
       <a href="#details">Details</a>
       <a href="#gallery">Gallery</a>
       <a href="#upload">Add Photos</a>
